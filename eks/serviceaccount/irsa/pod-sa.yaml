@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+    name: pod-sa
+    labels: 
+      app: nodeapp
+spec:
+  serviceAccountName: sa1-s3-demo00
+  containers:
+  - image: stepanowon/nodeapp-s3:2.0.0
+    imagePullPolicy: Always
+    name: nodeapp
+    ports: 
+    - containerPort: 8080
+    env:
+    - name: BUCKET
+      valueFrom:
+        configMapKeyRef:
+           name: myconfig
+           key: bucket
+    - name: OBJECTKEY
+      valueFrom:
+        configMapKeyRef:
+           name: myconfig
+           key: objectKey

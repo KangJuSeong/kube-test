@@ -1,0 +1,11 @@
+1. ServiceAccount 생성
+kubectl apply -f sa1.yaml
+
+2. 시간 제한된 token 생성(기본 1H)
+kubectl create token sa1
+https://jwt.io 에서 확인
+
+3. 제한 시간이 없는 token은 수동 생성
+kubectl apply -f sa1-token.yaml
+
+kubectl describe secret sa1-token

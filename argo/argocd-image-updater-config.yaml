@@ -1,0 +1,34 @@
+apiVersion: v1
+data:
+  applications_api: argocd
+  argocd.grpc_web: "true"
+  argocd.insecure: "true"
+  argocd.plaintext: "false"
+  argocd.server_addr: ae834ae5965a145abaa0db3ebe610925-1842547937.ap-northeast-2.elb.amazonaws.com
+  log.level: debug
+  registries.conf: |
+    registries:
+    - name: Docker Hub Registry
+      ping: yes
+      prefix: docker.io
+      api_url: https://registry.docker.io
+      credentials: secret:argocd/dockerhub-cred
+      defaultns: library
+    - name: ECR Registry
+      ping: yes
+      prefix: 242337484181.dkr.ecr.ap-northeast-2.amazonaws.com
+      api_url: https://242337484181.dkr.ecr.ap-northeast-2.amazonaws.com
+      credentials: secret:argocd/ecr-credentials#creds
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"applications_api":"argocd","argocd.grpc_web":"true","argocd.insecure":"true","argocd.plaintext":"false","argocd.server_addr":"ae834ae5965a145abaa0db3ebe610925-1842547937.ap-northeast-2.elb.amazonaws.com","log.level":"debug","registries.conf":"registries:\n- name: Docker Hub Registry\n  ping: yes\n  prefix: docker.io\n  api_url: https://registry.docker.io\n  credentials: secret:argocd/dockerhub-cred\n  defaultns: library\n"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":"2023-09-07T07:10:14Z","labels":{"app.kubernetes.io/name":"argocd-image-updater-config","app.kubernetes.io/part-of":"argocd-image-updater"},"name":"argocd-image-updater-config","namespace":"argocd","resourceVersion":"632531","uid":"9213eb80-ce03-49dc-b358-db2c22fc4641"}}
+  creationTimestamp: "2023-09-07T07:10:14Z"
+  labels:
+    app.kubernetes.io/name: argocd-image-updater-config
+    app.kubernetes.io/part-of: argocd-image-updater
+  name: argocd-image-updater-config
+  namespace: argocd
+  resourceVersion: "636324"
+  uid: 9213eb80-ce03-49dc-b358-db2c22fc4641

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfig
+  namespace: default
+data:
+  bucket: 'k8s-irsa-test'
+  objectKey: 'contacts.json'

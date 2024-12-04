@@ -1,0 +1,27 @@
+docker build . --tag nodeapp:1.0.0
+
+docker tag nodeapp:1.0.0 stepanowon/nodeapp:1.0.0
+
+docker run -p 8080:80/tcp --name nodeapp1 nodeapp:1.0.0 &
+
+
+
+docker container stop nodeapp1
+docker container start nodeapp1
+docker container rm nodeapp1
+docker container kill nodeapp1
+
+** 모든 컨테이너 실행 종료
+docker stop $(docker ps -a -q)
+
+** 모든 컨테이너 삭제
+docker rm -vf $(docker ps -a -q)
+
+** 모든 이미지 삭제
+docker rmi -f $(docker images -a -q)
+
+** 용량 확인
+docker system df
+
+** 필요없는 캐시 삭제
+docker buildx prune -f

@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rollouts-demo
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: a67f6a1c8fccc4664b78e8ec1197aa49-1560063602.ap-northeast-2.elb.amazonaws.com
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: rollouts-demo
+            port: 
+              number: 80

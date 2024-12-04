@@ -1,0 +1,26 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - yum install sed docker -y
+  pre_build:
+    commands:
+      - echo "도커 데몬이 준비될 때까지 대기"
+      - timeout 30 sh -c "until docker info; do echo .; sleep 1; done"
+      - REPOSITORY_URI=111122223333.dkr.ecr.ap-northeast-2.amazonaws.com/nodeapp-git-NN
+      - MY_REGION=ap-northeast-2
+      - echo "ECR 로그인"
+      - $(aws ecr get-login --no-include-email --region ${MY_REGION})
+      - TAG="$(head -n 1 Dockerfile | sed 's/#//' | sed 's/\r//')"
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo "${REPOSITORY_URI}:${TAG}"
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo "도커 이미지 ECR로 게시"
+      - docker push "${REPOSITORY_URI}:latest"
+      - docker push "${REPOSITORY_URI}:${TAG}"
